@@ -1,0 +1,67 @@
+package Assignment_DP;
+
+import java.util.Arrays;
+
+public class Climbing_Stairs_variable_Jumps {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+       int n = 10;
+       int [] arr = {3,3,0,2,1,2,4,2,0,0};
+       int [] dp = new int [n+1];
+       Arrays.fill(dp, -1);
+       System.out.println(climbing(arr, 0, n));
+       System.out.println(climbMemo(arr, 0, n, dp));
+       System.out.println(climbTabu(arr,0,n));
+	}
+	public static int climbing(int [] arr, int src, int n) {
+		if(src == n) {
+			return 1;
+		}
+		if(src > n) {
+			return 0;
+		}
+		
+		int totalPath = 0;
+		for(int i = 1; i <= arr[src]; i++) {
+		int Xi = climbing(arr, src + i, n);
+		totalPath += Xi;
+		}
+		
+		return totalPath;
+	}
+	
+	// Memoization
+	public static int climbMemo(int [] arr, int src, int n, int[] dp) {
+		if(src == n) {
+			return 1;
+		}
+		if(src > n) {
+			return 0;
+		}
+		if(dp[src] != -1) {
+			return dp[src];
+		}
+		int totalPath = 0;
+		for(int i = 1; i <= arr[src]; i++) {
+			int Xi = climbMemo(arr, src + i, n, dp);
+			totalPath += Xi;
+		}
+		return dp[src] = totalPath;
+	}
+	
+	// Tabulation
+	public static int climbTabu(int [] arr, int src, int n) {
+		int [] dp = new int [n+1];
+		dp[n] = 1;
+		for(int i = n-1; i >= 0; i--) {
+		    int totalPath = 0;
+		    for(int j = 1; j <= arr[i]; j++) {
+		    	totalPath += dp[i + j];
+		    }
+           dp[i] = totalPath;
+		}
+		return dp[0];
+	}
+
+}

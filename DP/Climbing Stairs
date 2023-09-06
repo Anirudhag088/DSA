@@ -1,0 +1,66 @@
+package Assignment_DP;
+
+import java.util.Arrays;
+
+public class climbing_Stairs {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        int n = 4;
+        int [] dp = new int [n+1];
+         Arrays.fill(dp, -1);
+         
+        //System.out.println(climbing(0,n));
+        // System.out.println(climbMemo(0,n,dp));
+         System.out.println(climbTabu(0,n));
+	}
+	public static int climbing(int ques, int n) {
+		if(ques == n) {
+			return 1;
+		}
+		if(ques > n) {
+			return 0;
+		}
+		
+		int one = climbing(ques+1, n);
+		int two = climbing(ques+2,  n);
+		int three = climbing(ques+3,  n);
+		return one+two+three;
+	}
+	
+	// Memoization
+	public static int climbMemo(int ques, int n, int[] dp) {
+		if(ques == n) {
+			return 1;
+		}
+		if(ques > n) {
+			return 0;
+		}
+		if(dp[ques] != -1) {
+			return dp[ques];
+		}
+		int one = climbMemo(ques+1, n, dp);
+		int two = climbMemo(ques+2,  n, dp);
+		int three =climbMemo(ques+3,  n, dp);
+		return dp[ques] = one+two+three;
+		
+	}
+	
+	//Tabulation
+	public static int climbTabu(int ques, int n) {
+		int [] dp = new int [n+1];
+		dp[n] = 1;
+		for(int i = n-1; i >= 0; i--) {
+			dp[i] += dp[i + 1]; 
+			if(i+2 < dp.length) {
+				dp[i] += dp[i + 2];
+			}
+			if(i+3 < dp.length) {
+				dp[i] += dp[i + 3];
+			}
+		}
+		return dp[0];
+		
+	}
+
+}

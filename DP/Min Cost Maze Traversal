@@ -1,0 +1,50 @@
+package Assignment_DP;
+
+import java.util.Arrays;
+
+public class Min_Cost_Maze_Traversal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        int n = 6;
+        int m = 6;
+         int [][] arr = {{0,1,4,2,8,2},{4,3,6,5,0,4},{1,2,4,1,4,6},
+        		         {2,0,7,3,2,2},{3,1,5,9,2,4},{2,7,0,8,5,1}};
+         int[][] dp = new int[n][m];
+         for(int i = 0; i < dp.length; i++) {
+        	  Arrays.fill(dp[i], -1);
+         } 
+         //System.out.println(minCost(arr, 0, 0, n-1, m-1));
+         System.out.println(minCostMemo(arr,0,0,n-1,m-1,dp));
+	} 
+     public static int  minCost(int [][]arr, int cr, int cc, int dr, int dc) {
+    	 if(cr == arr.length-1 && cc == arr[0].length-1) {
+    		  return arr[cr][cc] ;
+    	 }
+    	 if(cr >= arr.length || cc >= arr[0].length) {
+    		 return Integer.MAX_VALUE;
+    	 }
+    	 
+     int x =  minCost(arr, cr, cc+1, dr, dc);
+     int y =  minCost(arr, cr+1, cc, dr, dc);
+     return arr[cr][cc] + Math.min(x, y);
+     }
+     
+     // Memoization
+     public static int minCostMemo(int[][] arr, int cr, int cc, int dr, int dc, int[][] dp) {
+    	 if(cr == arr.length-1 && cc == arr[0].length-1) {
+   		  return dp [cr][cc] = arr[cr][cc] ;
+   	 }
+   	 if(cr >= arr.length || cc >= arr[0].length) {
+   		 return Integer.MAX_VALUE;
+   	 }
+   	 if(dp[cr][cc] != -1) {
+   		 return dp[cr][cc];
+   	 }
+   	 int x =  minCostMemo(arr, cr, cc+1, dr, dc, dp);
+     int y =  minCostMemo(arr, cr+1, cc, dr, dc, dp);
+     return dp[cr][cc] = arr[cr][cc] + Math.min(x, y);
+   }
+     
+   
+}

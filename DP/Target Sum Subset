@@ -1,0 +1,60 @@
+package Assignment_DP;
+
+import java.util.Arrays;
+
+public class Target_Sum_Subset {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+        int [] arr = {4,2,7,1,3};
+        int target = 10;
+        //System.out.println(subset(arr,0,0,target));
+        int [][] dp = new int [arr.length + 1][target + 1];
+        for(int i = 0; i < dp.length; i++) {
+        	Arrays.fill(dp[i], -1);
+        }
+        System.out.println(subsetMemo(arr,0,0,target,dp));
+        
+	}
+	public static boolean subset(int[] arr, int idx, int currsum, int target) {
+		if(idx == arr.length) {
+			if(currsum == target) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		
+		boolean yes = subset(arr, idx+1, currsum + arr[idx], target);
+		boolean no = subset(arr, idx+1, currsum, target);
+	     if(yes == true || no == true) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	// Memoization
+	public static boolean subsetMemo(int[] arr, int idx, int currsum, int target, int[][] dp) {
+		if(idx == arr.length) {
+			if(currsum == target) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		if(currsum > target) return false;
+		if(dp[idx][currsum] != -1) {
+			return (dp[idx][currsum] == 1) ? true : false;
+		}
+		
+		boolean yes = subsetMemo(arr, idx+1, currsum + arr[idx], target, dp);
+		boolean no = subsetMemo(arr, idx+1, currsum, target, dp);
+	     if(yes == true || no == true) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
+}

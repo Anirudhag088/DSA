@@ -1,0 +1,40 @@
+package Assignment_DP;
+
+import java.util.Arrays;
+
+public class Goldmines {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int n = 6;
+		int m = 6;
+        int [][] arr = {{0, 1, 4, 2, 8, 2},{4, 3, 6, 5, 0, 4},{1, 2, 4, 1, 4, 6},
+        		      {2, 0, 7, 3, 2, 2},{3, 1, 5, 9, 2, 4},{2, 7, 0, 8, 5, 1}};
+        int [][] dp = new int [n][m];
+        for(int i = 0; i < dp.length; i++) {
+        	Arrays.fill(dp[i], -1);
+        }
+        int ans = 0;
+        for(int i = 0; i < arr.length; i++) {
+          ans = Math.max(ans, maxGold(arr,i,0,dp));
+        }
+        System.out.println(ans);
+	}
+	public static int maxGold(int[][] arr, int row, int col, int[][] dp) {
+		if(row < 0 || row >= arr.length) {
+			return 0;
+		}
+		if(col == arr[0].length-1) {
+		    return arr[row][col];
+		}
+		if(dp[row][col] != -1) {
+			return dp[row][col];
+		}
+		
+		int up = maxGold(arr, row-1,  col+1, dp);
+		int right = maxGold(arr, row, col+1, dp);
+		int down = maxGold(arr, row+1, col+1, dp);
+		return dp[row][col] = arr[row][col] + Math.max(up, Math.max(right, down));
+	}
+
+}

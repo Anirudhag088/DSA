@@ -1,0 +1,23 @@
+package Assignment_DP;
+
+public class Coin_Change_Permutation {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+       int [] arr = {2,3,5,6};
+       int amt = 7;
+       
+       System.out.println(coin(arr, amt));
+	}
+	public static int coin(int [] arr, int amt) {
+		int [] dp = new int[amt + 1];
+		dp[0] = 1;
+		for(int i = 1; i < dp.length; i++) {
+			for(int j = 0; j < arr.length; j++) {
+				dp[i] += (i-arr[j] < 0) ? 0 : dp[i-arr[j]];
+			}
+		}
+		return dp[dp.length-1];
+	}
+
+}
